@@ -29,6 +29,7 @@ use core::fmt;
 use core::iter::{Product, Sum};
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+#[cfg(feature = "random")]
 use rand_core::RngCore;
 use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
@@ -75,6 +76,7 @@ pub trait Field:
     const ONE: Self;
 
     /// Returns an element chosen uniformly at random using a user-provided RNG.
+    #[cfg(feature = "random")]
     fn random(rng: impl RngCore) -> Self;
 
     /// Returns true iff this element is zero.
@@ -467,7 +469,10 @@ pub trait PrimeFieldBits: PrimeField {
 pub mod derive {
     pub use crate::arith_impl::*;
 
-    pub use {byteorder, rand_core, subtle};
+    #[cfg(feature = "random")]
+    pub use rand_core;
+
+    pub use {byteorder, subtle};
 
     #[cfg(feature = "bits")]
     pub use bitvec;

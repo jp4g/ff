@@ -1,6 +1,6 @@
 [package]
 name = "ff"
-version = "0.13.0"
+version = "0.13.1"
 authors = [
     "Sean Bowe <ewillbefull@gmail.com>",
     "Jack Grigg <thestr4d@gmail.com>",
@@ -17,7 +17,7 @@ edition = "2021"
 bitvec = { version = "1", default-features = false, optional = true }
 byteorder = { version = "1", default-features = false, optional = true }
 ff_derive = { version = "0.13", path = "ff_derive", optional = true }
-rand_core = { version = "0.6", default-features = false }
+rand_core = { version = "0.6", default-features = false, optional = true }
 subtle = { version = "2.2.1", default-features = false, features = ["i128"] }
 
 [dev-dependencies]
@@ -25,7 +25,7 @@ blake2b_simd = "1"
 rand = "0.8"
 
 [features]
-default = ["bits", "std"]
+default = ["bits", "std", "random"]
 alloc = []
 bits = ["bitvec"]
 derive = ["byteorder", "ff_derive"]
@@ -33,6 +33,7 @@ std = ["alloc"]
 # with MSRV 1.60 this could be merged into bits with ff_derive?/bits
 # see PR#72 for more information.
 derive_bits = ["bits", "ff_derive/bits"]
+random = ["rand_core", "rand"]
 
 [[test]]
 name = "derive"
